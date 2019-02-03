@@ -57,7 +57,7 @@ import { ViewChild } from '@angular/core';
 
 
 export class LeafletMapComponent implements OnInit {
-  
+
   private from: L.Marker;
   private fromLatLng;
   private to: L.Marker;
@@ -108,12 +108,12 @@ export class LeafletMapComponent implements OnInit {
                 subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
             })
   }
-  
+
 
   options = {
     id: "main",
     preferCanvas: true,
-    zoom: 12,
+    zoom: 15,
     minZoom:3,
     maxBounds: L.latLngBounds([
             [-180, -180],
@@ -121,7 +121,8 @@ export class LeafletMapComponent implements OnInit {
         ]),
     maxBoundsViscosity: 1.0,
     zoomControl: false,
-    center: L.latLng({ lat: 19.442487, lng: -99.127828 }),
+    center: L.latLng({ lat:19.419280, lng: -99.185673 }),
+    // center: L.latLng({ lat: 19.442487, lng: -99.127828 }),
     contextmenu: true,
     contextmenuWidth: 80
   };
@@ -136,7 +137,7 @@ export class LeafletMapComponent implements OnInit {
     spiderfyOnMaxZoom: true,
     showCoverageOnHover: true,
     zoomToBoundsOnClick: true,
-    disableClusteringAtZoom: 16,
+    disableClusteringAtZoom: 2,
     animateAddingMarkers: true,
     polygonOptions: {
       weight: 3,
@@ -147,7 +148,7 @@ export class LeafletMapComponent implements OnInit {
   private messages = [];
   private fromText = {};
   private toText= {};
-  
+
   private fromResults: any[];
   private toResults: any[];
 
@@ -160,14 +161,14 @@ export class LeafletMapComponent implements OnInit {
     "4": ["orange", "orange", "orange", "orange", "#333"],
     "5": ["orange", "orange", "orange", "orange", "orange"],
   }
-  
+
 
   @ViewChild(AdvGrowlComponent)
   private growlComponent: AdvGrowlComponent;
 
   constructor(
-    private stopService: StopsService, 
-    private airControlService: AirControlService, 
+    private stopService: StopsService,
+    private airControlService: AirControlService,
     private pollenService: PollenService,
     private weatherService: WeatherService,
     private poisService: PoisService,
@@ -175,8 +176,8 @@ export class LeafletMapComponent implements OnInit {
     private vehiclePositionService: VehiclePositionService,
     private myItinerariesService: MyItinerariesService,
     private trafficService: TrafficService,
-    private routesService: RoutesService, 
-    private map3dService: Map3dService, 
+    private routesService: RoutesService,
+    private map3dService: Map3dService,
     private datePipe: DatePipe,
     private advGrowlService: AdvGrowlService,
     ) {
@@ -190,7 +191,7 @@ export class LeafletMapComponent implements OnInit {
       position: 'bottomright'
     }).addTo(map);
 
-    
+
     let toolbarButton = new toolbarButtonConstructor();
     toolbarButton.addTo(map);
 
@@ -203,9 +204,9 @@ export class LeafletMapComponent implements OnInit {
           "roofColor": "rgba(243, 199, 63, .1)",
           "height": 500
         });
-  
+
         buildings.date((new Date()));
-        
+
         this.LayersControl.addOverlay(buildings,"3D Models");
       });
     }
@@ -219,7 +220,7 @@ export class LeafletMapComponent implements OnInit {
       }
     });
 
-    
+
 
     new L.Control.Zoom({
       position: 'topright'
@@ -238,11 +239,11 @@ export class LeafletMapComponent implements OnInit {
     this.envLayer = L.layerGroup([]);
 
     this.airControlService
-      .getAirControl().subscribe(result => {  
+      .getAirControl().subscribe(result => {
         this.airControlService.addToCluster(result, this.markerClusterGroupAir);
         this.airControlService.getUpdates();
         this.markerClusterGroupAir.addTo(this.envLayer);
-        this.LayersControl.addOverlay(this.envLayer, "Air Quality, Pollen, Weather, alerts and POIs");  
+        this.LayersControl.addOverlay(this.envLayer, "Air Quality, Pollen, Weather, alerts and POIs");
       }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
 
     var info = L.DomUtil.get('toolbar-sensor-info');
@@ -258,16 +259,16 @@ export class LeafletMapComponent implements OnInit {
         health.style.display = 'none';
       }
     });
-    
+
 
     this.pollenService
       .getPollen().subscribe(result => {
         // console.log(result)
         this.pollenService.addToCluster(result, this.markerClusterGroupPollen);
-  
+
         this.markerClusterGroupPollen.addTo(this.envLayer);
       }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
-      
+
       var pollen_info = L.DomUtil.get('toolbar-pollen-info');
       //console.log(pollen_info)
       this.pollenService.selectedSensor$.subscribe(s => {
@@ -290,7 +291,7 @@ export class LeafletMapComponent implements OnInit {
 
         this.markerClusterGroupWeather.addTo(map);
       }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
-      
+
       var weather_info = L.DomUtil.get('toolbar-weather-info');
       this.weatherService.selectedSensor$.subscribe(s => {
         this.weather_sensor = s;
@@ -305,11 +306,11 @@ export class LeafletMapComponent implements OnInit {
       this.poisService
       .getPois().subscribe(result => {
         this.poisService.addToCluster(result, this.markerClusterGroupPois);
-        this.markerClusterGroupPois.addTo(this.envLayer); 
-    
+        this.markerClusterGroupPois.addTo(this.envLayer);
+
         // this.markerClusterGroupPois.addTo(map);
       }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
-      
+
       var pois_info = L.DomUtil.get('toolbar-pois-info');
       this.poisService.selectedSensor$.subscribe(s => {
         this.pois_sensor = s;
@@ -321,7 +322,7 @@ export class LeafletMapComponent implements OnInit {
         }
       });
 
-  
+
       this.alertService
       .getAlert().subscribe(result => {
         this.alertService.addToCluster(result, this.markerClusterGroupAlert);
@@ -337,7 +338,7 @@ export class LeafletMapComponent implements OnInit {
         this.markerClusterGroupAlert.addTo(this.envLayer);
 
       }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
-      
+
       this.myItinerariesService
       .getUserItineraries().subscribe(result => {
         var myItineraries = L.DomUtil.get('toolbar-my-itineraries');
@@ -375,7 +376,7 @@ export class LeafletMapComponent implements OnInit {
           pollution_info.style.paddingLeft = '0px';
 
           let g_km;
-          
+
           for (var pollutant in result[it]['pollutants']) {
             console.log(result[it]['pollutants'][pollutant]['id'], result[it]['pollutants'][pollutant]['value']);
             if (result[it]['pollutants'][pollutant]['id'] === 'co2'){
@@ -403,7 +404,7 @@ export class LeafletMapComponent implements OnInit {
                 let value = pollution_co2.getAttribute('value');
                 pollution_co2.innerHTML = value;
                 pollution_co2.style.backgroundColor = 'grey';
-                
+
                 document.getElementById(pollution_co2.getAttribute('g_km_id')).innerHTML = pollution_co2.getAttribute('unit');
                 document.getElementById(pollution_co2.getAttribute('g_km_id')).style.display = 'initial';
 
@@ -431,7 +432,7 @@ export class LeafletMapComponent implements OnInit {
                 document.getElementById(pollution_co2.getAttribute('g_km_id')).style.display = 'none';
               });
             }
-            
+
             if (result[it]['pollutants'][pollutant]['id'] === 'ch4'){
               let pollution_ch4 = L.DomUtil.create('div', 'col-md-1', pollution_info);
               pollution_ch4.id = 'ch4' + it;
@@ -531,7 +532,7 @@ export class LeafletMapComponent implements OnInit {
                 pollution_n2o.innerHTML = 'N2O';
                 pollution_n2o.style.paddingLeft = '5px';
                 pollution_n2o.style.backgroundColor = 'orange';
-                
+
                 document.getElementById(pollution_n2o.getAttribute('g_km_id')).innerHTML = 'g/km';
                 document.getElementById(pollution_n2o.getAttribute('g_km_id')).style.display = 'none';
               });
@@ -564,25 +565,25 @@ export class LeafletMapComponent implements OnInit {
 
           itinerary.setAttribute('data-toggle','collapse');
           itinerary.setAttribute('href','#'+instUL.id);
-          
+
           instUL.addEventListener('click', event => {
             event.preventDefault();
             L.DomEvent.stopPropagation(event);
           })
 
-          for (let legs of result[it]['segments']) {  
+          for (let legs of result[it]['segments']) {
             var latlngs;
             if (legs['mode']==='Public Transportation'){
               let instLiFrom = L.DomUtil.create('li', '', instUL);
               var fromDate = new Date(legs['from']['departure']);
               instLiFrom.innerHTML = "<b>From:</b> "+legs['from']['name'] + " at "+ fromDate.getHours() + ":" + (fromDate.getMinutes()<10?'0':'') + fromDate.getMinutes();
               instLiFrom.style.textAlign = 'justify';
-              
+
               var toDate = new Date(legs['to']['arrival']);
               let instLiTo = L.DomUtil.create('li', '', instUL);
               instLiTo.innerHTML = "<b>To:</b> "+legs['to']['name'] + " at "+ toDate.getHours() + ":" + (toDate.getMinutes()<10?'0':'') + toDate.getMinutes();
               instLiTo.style.textAlign = 'justify';
-              
+
               latlngs = polyUtil.decode(legs['legGeometry']['points']);
             }
             else{
@@ -595,7 +596,7 @@ export class LeafletMapComponent implements OnInit {
             }
 
             if(latlngs){
-              var polyline = L.polyline(latlngs, { 
+              var polyline = L.polyline(latlngs, {
                 color: this.active_color,
                 weight: 8
               });
@@ -636,7 +637,7 @@ export class LeafletMapComponent implements OnInit {
                   }
                 }else{
                   this.fromLatLng = [
-                    this.myItinerariesObj[polylayer]['from']['lat'], 
+                    this.myItinerariesObj[polylayer]['from']['lat'],
                     this.myItinerariesObj[polylayer]['from']['lon']
                   ];
                   this.fromHere({
@@ -646,7 +647,7 @@ export class LeafletMapComponent implements OnInit {
                     }
                   },map);
                   this.toLatLng = [
-                    this.myItinerariesObj[polylayer]['to']['lat'], 
+                    this.myItinerariesObj[polylayer]['to']['lat'],
                     this.myItinerariesObj[polylayer]['to']['lon']
                   ];
                   this.toHere({
@@ -679,8 +680,8 @@ export class LeafletMapComponent implements OnInit {
       }
       //trafficLayer.addTo(map);
       this.LayersControl.addOverlay(trafficLayer, "Traffic data");
-      
-      
+
+
     this.stopService.getStops().subscribe(result => {
       this.stopsLayer = this.createStopsLayer(result, map); // não conseguia fazer esta atribuiçao no service, dava erro
       var fakeLayer = new L.LayerGroup();
@@ -703,7 +704,7 @@ export class LeafletMapComponent implements OnInit {
           this.LayersControl.removeLayer(this.stopsLayer);
           this.LayersControl.addOverlay(this.stopsLayer,"Public Transportation Stops");
         }
-      }); 
+      });
     }, error => { throw new Error(error.message) });
 
     map.addEventListener('click', (e) => {
@@ -713,7 +714,7 @@ export class LeafletMapComponent implements OnInit {
     this.msgs.push({severity:'info', summary:'Getting started', detail:"Right click (hold on mobile) to set directions"});
   }
 
-  
+
   markerClusterReady(group: L.MarkerClusterGroup) {
     this.markerClusterGroupAir = group;
     this.markerClusterGroupPollen = group;
@@ -721,7 +722,7 @@ export class LeafletMapComponent implements OnInit {
     this.markerClusterGroupPois = group;
     this.markerClusterGroupAlert = group;
   }
-  
+
   ngOnInit(): void {
     this.default_tmode = this.timemodes[0];
     this.routesService.getConfig().subscribe(result => {
@@ -738,7 +739,7 @@ export class LeafletMapComponent implements OnInit {
       this.isMobile = false;
     }else{
       this.isMobile = true;
-    }  
+    }
 
     // weather_pollutants = this.weatherService.getUpdates();
 
@@ -749,10 +750,10 @@ export class LeafletMapComponent implements OnInit {
     var obj = {};
     obj['fromPlace'] = this.fromLatLng;
     obj['toPlace'] = this.toLatLng;
-    
+
     obj['mode'] = this.modes_alias[e['mode']];
 
-    
+
     obj['maxWalkDistance'] = e['maxWalkDistance'];
     if (e['startDate']) {
       obj['date'] = this.datePipe.transform(e['startDate'], "MM-dd-yyyy");
@@ -767,7 +768,7 @@ export class LeafletMapComponent implements OnInit {
     if(e['time-mode']==="Arrive by"){
       obj['arriveBy'] = true;
     }else{
-      obj['arriveBy'] = false;  
+      obj['arriveBy'] = false;
     }
 
     this.routesService.calculate(obj).subscribe(result => {
@@ -799,7 +800,7 @@ export class LeafletMapComponent implements OnInit {
       let navContent = L.DomUtil.create('div', '', container);
 
       var current_itinerary = 0;
-      
+
       for (let it of itineraries) {
 
         let divGroup = L.DomUtil.create('li', '', itUl);
@@ -833,12 +834,12 @@ export class LeafletMapComponent implements OnInit {
             var fromDate = new Date(legs['from']['departure']);
             instLiFrom.innerHTML = "<b>From:</b> "+legs['from']['name'] + " at "+ fromDate.getHours() + ":" + (fromDate.getMinutes()<10?'0':'') + fromDate.getMinutes();
             instLiFrom.style.textAlign = 'justify';
-            
+
             var toDate = new Date(legs['to']['arrival']);
             let instLiTo = L.DomUtil.create('li', '', instUL);
             instLiTo.innerHTML = "<b>To:</b> "+legs['to']['name'] + " at "+ toDate.getHours() + ":" + (toDate.getMinutes()<10?'0':'') + toDate.getMinutes();
             instLiTo.style.textAlign = 'justify';
-            
+
             latlngs = polyUtil.decode(legs['legGeometry']['points']);
           }
           else{
@@ -851,7 +852,7 @@ export class LeafletMapComponent implements OnInit {
             latlngs = polyUtil.decode(legs['route']);
           }
           if(latlngs){
-            var polyline = L.polyline(latlngs, { 
+            var polyline = L.polyline(latlngs, {
               color: '#9fa1a5',
               weight: 8
            });
@@ -887,13 +888,13 @@ export class LeafletMapComponent implements OnInit {
                   instButton.style.backgroundColor = "rgba("+this.colors[this.polylinesObj[legsButton.id]['index']]+","+this.colors_alpha+")";
                   this.polylinesObj[legsButton.id][instButton.id].setStyle({color:"rgba("+this.colors[this.polylinesObj[legsButton.id]['index']]+","+this.colors_alpha+")"})
                 }
-              } 
+              }
             });
 
             polyline.addEventListener('click',()=>{
               legsButton.click();
             });
-            
+
             polyArray.push(polyline);
 
             this.polylinesObj[legsButton.id][instButton.id] = polyline;
@@ -927,7 +928,7 @@ export class LeafletMapComponent implements OnInit {
         this.it_classification[j+1] = {}
         this.it_classification[j+1]['classification'] = 0;
         this.it_classification[j+1]['share'] = false;
-        
+
         this.polylinesObj[legsButton.id]['layer'] = L.layerGroup(polyArray);
         this.map.addLayer(this.polylinesObj[legsButton.id]['layer']);
 
@@ -949,7 +950,7 @@ export class LeafletMapComponent implements OnInit {
             classification4.style.color = this.classification_colors[this.it_classification[current_itinerary+1]['classification']][3];
             classification5.style.color = this.classification_colors[this.it_classification[current_itinerary+1]['classification']][4];
           }
-          
+
           if(this.it_classification[current_itinerary+1]['share'] == true){
             shareRouteButton.style.backgroundColor = 'gray';
             shareRouteButton.style.borderColor = 'gray';
@@ -960,15 +961,15 @@ export class LeafletMapComponent implements OnInit {
           }
 
           var _content = L.DomUtil.get('toolbar-itineraries-content');
-          for(var _j=0;_j<_content.children.length;_j++){         
+          for(var _j=0;_j<_content.children.length;_j++){
             var _legs = L.DomUtil.get(_content.children[_j].children[0].id);
             var _legsUL = L.DomUtil.get(_legs.id+"UL");
-            if(_legs.id!==legsButton.id){ // fechar as outras legs que estejam abertas 
+            if(_legs.id!==legsButton.id){ // fechar as outras legs que estejam abertas
               L.DomUtil.removeClass(_legs.parentElement,"active");
               if(L.DomUtil.hasClass(_legsUL, 'in')){
-                for(var _i=0;_i<_legsUL.children.length;_i++){ 
+                for(var _i=0;_i<_legsUL.children.length;_i++){
                   var _legsULinstUL = L.DomUtil.get(_legsUL.children[_i].children[1].id);
-                  var _legsULinstULbutton = L.DomUtil.get(_legsUL.children[_i].children[0].id); 
+                  var _legsULinstULbutton = L.DomUtil.get(_legsUL.children[_i].children[0].id);
                   if(L.DomUtil.hasClass(_legsULinstUL,"in")){  //fechar os filhos das legs se estiverem abertos
                     _legsULinstULbutton.style.backgroundColor = '#FFFFFF'; // #5091cd
                     L.DomUtil.removeClass(_legsULinstUL,"in");
@@ -981,7 +982,7 @@ export class LeafletMapComponent implements OnInit {
               L.DomUtil.addClass(_legs.parentElement,"active");
               if(!L.DomUtil.hasClass(_legsUL, 'in')){
                 for(var _i=0;_i<_legsUL.children.length;_i++){
-                  var _legsULinstULbutton = L.DomUtil.get(_legsUL.children[_i].children[0].id); 
+                  var _legsULinstULbutton = L.DomUtil.get(_legsUL.children[_i].children[0].id);
                   this.polylinesObj[_legs.id][_legsULinstULbutton.id].setStyle({color:this.active_color});  //meter a polyline a azul
                   this.polylinesObj[_legs.id][_legsULinstULbutton.id].bringToFront();
                 }
@@ -992,7 +993,7 @@ export class LeafletMapComponent implements OnInit {
         });
         j++;
       }
-   
+
       let shareRoute = false;
       let classification = 0;
 
@@ -1067,7 +1068,7 @@ export class LeafletMapComponent implements OnInit {
           classification4.style.color = '#333';
           classification5.style.color = '#333';
         }
-        
+
       });
 
       classification1.addEventListener('mouseover',()=>{
@@ -1168,7 +1169,7 @@ export class LeafletMapComponent implements OnInit {
         classification3.style.color = 'orange';
         classification4.style.color = 'orange';
         classification5.style.color = 'orange';
-    
+
       });
       classification5.addEventListener('mouseover',()=>{
         classification1.style.color = 'orange';
@@ -1201,10 +1202,10 @@ export class LeafletMapComponent implements OnInit {
           shareRoute = false;
           this.it_classification[current_itinerary+1]['share'] = false;
         }
-        
+
       });
 
-      
+
       let saveRouteButton = L.DomUtil.create('a', 'btn btn-success btn-sm', divSaveButton);
       saveRouteButton.id = "save-route-button"
       saveRouteButton.innerHTML = "<span class='glyphicon glyphicon-floppy-disk' aria-hidden='true'></span> Save Itinerary"
@@ -1231,7 +1232,7 @@ export class LeafletMapComponent implements OnInit {
           "rate": this.it_classification[current_itinerary+1]['classification'],
           "shared": this.it_classification[current_itinerary+1]['share']
         }
-        
+
         let save_result = null;
 
         this.routesService.saveRoute(data)
@@ -1251,10 +1252,10 @@ export class LeafletMapComponent implements OnInit {
         })
       });
 
-      toolbarDiv.style.display = 'block'; 
+      toolbarDiv.style.display = 'block';
       L.DomUtil.addClass(L.DomUtil.get('legs0UL'),'in');  // abrir a tab da primeira polyline na toolbar
       L.DomUtil.addClass(L.DomUtil.get('legs0').parentElement,'active');  // abrir a tab da primeira polyline na toolbar
-      
+
 
       for(let poly in this.polylinesObj['legs0']){
         if(poly.startsWith('legs')){
@@ -1291,9 +1292,9 @@ export class LeafletMapComponent implements OnInit {
           popupAnchor:  [0, -55] // point from which the popup should open relatixe to the iconAnchor
         })
       }).addTo(this.map).addEventListener('moveend', (e) => {
-        
+
         this.routesService.searchLocationReverse([
-          e.target['_latlng']['lat'], 
+          e.target['_latlng']['lat'],
           e.target['_latlng']['lng']
         ].toString()).subscribe(data=>{
           if(!data.error){
@@ -1301,12 +1302,12 @@ export class LeafletMapComponent implements OnInit {
               display_name: data.display_name
             }
             this.fromChange([
-              e.target['_latlng']['lat'], 
+              e.target['_latlng']['lat'],
               e.target['_latlng']['lng']
             ].toString())
           }else{
             this.fromLatLng = [
-              e.target['_latlng']['lat'], 
+              e.target['_latlng']['lat'],
               e.target['_latlng']['lng']
             ];
             this.fromText = {
@@ -1327,7 +1328,7 @@ export class LeafletMapComponent implements OnInit {
         this.fromText= {
           display_name: aux
         }
-      }      
+      }
     }
   }
 
@@ -1342,9 +1343,9 @@ export class LeafletMapComponent implements OnInit {
           popupAnchor:  [0, -55] // point from which the popup should open relatixe to the iconAnchor
         })
       }).addTo(this.map).addEventListener('moveend', (e) => {
-        
+
         this.routesService.searchLocationReverse([
-          e.target['_latlng']['lat'], 
+          e.target['_latlng']['lat'],
           e.target['_latlng']['lng']
         ].toString()).subscribe(data=>{
           if(!data.error){
@@ -1352,12 +1353,12 @@ export class LeafletMapComponent implements OnInit {
               display_name: data.display_name
             }
             this.toChange([
-              e.target['_latlng']['lat'], 
+              e.target['_latlng']['lat'],
               e.target['_latlng']['lng']
             ].toString())
           }else{
             this.toLatLng = [
-              e.target['_latlng']['lat'], 
+              e.target['_latlng']['lat'],
               e.target['_latlng']['lng']
             ];
             this.toText = {
@@ -1375,7 +1376,7 @@ export class LeafletMapComponent implements OnInit {
       this.to.setLatLng(this.toLatLng);
       if(aux){
         this.toText['display_name'] = aux;
-      }      
+      }
     }
   }
 
@@ -1402,7 +1403,7 @@ export class LeafletMapComponent implements OnInit {
 
   fromHere(event, map: L.Map) {
     this.routesService.searchLocationReverse([
-      event['latlng']['lat'], 
+      event['latlng']['lat'],
       event['latlng']['lng']
     ].toString()).subscribe(data=>{
       if(!data.error){
@@ -1410,27 +1411,27 @@ export class LeafletMapComponent implements OnInit {
           display_name: data.display_name
         }
         this.fromChange([
-          event['latlng']['lat'], 
+          event['latlng']['lat'],
           event['latlng']['lng']
         ].toString())
       }else{
         this.fromLatLng = [
-          event['latlng']['lat'], 
+          event['latlng']['lat'],
           event['latlng']['lng']
-        ] 
+        ]
         this.fromText = {
           display_name: this.fromLatLng.toString()
         }
         this.fromMarker();
       }
-      
+
     });
   }
 
 
   toHere(event, map: L.Map) {
     this.routesService.searchLocationReverse([
-      event['latlng']['lat'], 
+      event['latlng']['lat'],
       event['latlng']['lng']
     ].toString()).subscribe(data=>{
       if(!data.error){
@@ -1438,20 +1439,20 @@ export class LeafletMapComponent implements OnInit {
           display_name: data.display_name
         }
         this.toChange([
-          event['latlng']['lat'], 
+          event['latlng']['lat'],
           event['latlng']['lng']
         ].toString())
       }else{
         this.toLatLng = [
-          event['latlng']['lat'], 
+          event['latlng']['lat'],
           event['latlng']['lng']
-        ] 
+        ]
         this.toText = {
           display_name: this.toLatLng.toString()
         }
         this.toMarker();
       }
-      
+
     });
   }
 
@@ -1473,9 +1474,9 @@ export class LeafletMapComponent implements OnInit {
         L.DomUtil.removeClass(toolbar, "open");
         // button.style.display = "none";
 
-        setTimeout(() => {buttonControl.style.display = "block";},300) 
+        setTimeout(() => {buttonControl.style.display = "block";},300)
       }
-    });    
+    });
   }
 
 
@@ -1575,7 +1576,7 @@ export class LeafletMapComponent implements OnInit {
       }
   }
 }
-  
+
   showData(pollutant){
     var div = L.DomUtil.get('toolbar-sensor-data');
     div.innerHTML = '<h4> ' +pollutant.name + ' | '+pollutant.value +" "+ pollutant.unit+' </h4>';
@@ -1595,7 +1596,7 @@ export class LeafletMapComponent implements OnInit {
           var alertLatLng = event.additionalProperties.location.coords;
           // var alertMarker = L.marker(L.latLng(alertLatLng[1],alertLatLng[0]), {
           //   icon: L.icon({
-          //     iconUrl: 'assets/marker-icon.png', 
+          //     iconUrl: 'assets/marker-icon.png',
           //     iconSize: [ 25, 41 ],
           //     iconAnchor: [ 13, 0 ]
           //   })
@@ -1603,7 +1604,7 @@ export class LeafletMapComponent implements OnInit {
           // setTimeout(() => {
           //   alertMarker.remove();
           // }, 3000);
-          this.map.panTo(L.latLng(alertLatLng[0][0],alertLatLng[0][1])); 
+          this.map.panTo(L.latLng(alertLatLng[0][0],alertLatLng[0][1]));
         }
       }
     }
@@ -1644,9 +1645,9 @@ export class LeafletMapComponent implements OnInit {
           this.toResults = data;
         });
       }
-      
+
     }
-    
+
   }
 
   select(event,func){
@@ -1695,7 +1696,7 @@ var toolbarButtonConstructor = L.Control.extend({
     },
     onRemove(map){
       return this;
-      
+
     },
     _fireClick(e){
       let toolbar = L.DomUtil.get('toolbar');
@@ -1705,6 +1706,6 @@ var toolbarButtonConstructor = L.Control.extend({
         button.style.display = "block";
         this._container.style.display = "none";
       }
-      
+
     }
   });

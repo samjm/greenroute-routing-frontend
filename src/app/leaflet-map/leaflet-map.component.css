@@ -38,7 +38,7 @@ h4{
   letter-spacing: -1px;
   position: relative;
   top: 5px;
-}  
+}
 
 #toolbar-pollen-ul{
   display: flex;
@@ -70,7 +70,7 @@ h4{
   letter-spacing: -1px;
   position: relative;
   top: 5px;
-}  
+}
 
 #toolbar-weather-ul{
   display: flex;
@@ -102,31 +102,32 @@ h4{
   letter-spacing: -1px;
   position: relative;
   top: 5px;
-} 
+}
 
 
 
 #toolbar {
-  background-color: lightgray;
+  /* background-color: lightgray; */
   opacity: .6;
   height: 100vh;
+  /* height: auto; */
   position: absolute;
   transition: .5s left;
-  box-sizing: border-box;  
+  box-sizing: border-box;
   padding: 8px 8px;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25);
+  /* box-shadow: 0 14px 28px rgba(0,0,0,0.25); */
 }
 
 
 #toolbar.open {
   left: 0;
   opacity: 1;
-  overflow-y: auto;
-  
+  overflow-y: scroll;
+
 }
 
 #toolbar-content{
-  margin-bottom: 100px;
+  margin-bottom: 10px; /*100px; */
 }
 #toolbar-form,::ng-deep #toolbar-routes-container, #toolbar-my-itineraries-container{
   padding-top: 5px;
@@ -232,8 +233,8 @@ button, input, select, textarea, option{
 }
 
 
-::-webkit-scrollbar { 
-    display: none; 
+::-webkit-scrollbar {
+    display: none;
 }
 
 #toolbar.open #toolbar-button{
@@ -313,7 +314,7 @@ button, input, select, textarea, option{
 }
 
 
-/* Custom, iPhone Retina */ 
+/* Custom, iPhone Retina */
 
 @media only screen and (max-width : 320px) {
   #toolbar {
@@ -333,7 +334,7 @@ button, input, select, textarea, option{
 /* Small Devices, Tablets */
 @media only screen and (min-width : 768px) {
   #toolbar {
-    width: 440px;
-    left: -440px;
+    width: 400px;
+    left: -400px;
   }
 }

@@ -195,21 +195,21 @@ export class LeafletMapComponent implements OnInit {
     let toolbarButton = new toolbarButtonConstructor();
     toolbarButton.addTo(map);
 
-    if(!this.isMobile){
-      L.DomUtil.addClass(L.DomUtil.get('toolbar'),"open");
-      toolbarButton._container.style.display = "none";
-      this.map3dService.get3D().subscribe(res=>{
-        var buildings = new OSMB.OSMBuildings().set(res).style({
-          "wallColor": "rgba(173,  markerClusterGroup: L.MarkerClusterGroup; 132, 11, .1)",
-          "roofColor": "rgba(243, 199, 63, .1)",
-          "height": 500
-        });
-
-        buildings.date((new Date()));
-
-        this.LayersControl.addOverlay(buildings,"3D Models");
-      });
-    }
+    // if(!this.isMobile){
+    //   L.DomUtil.addClass(L.DomUtil.get('toolbar'),"open");
+    //   toolbarButton._container.style.display = "none";
+    //   this.map3dService.get3D().subscribe(res=>{
+    //     var buildings = new OSMB.OSMBuildings().set(res).style({
+    //       "wallColor": "rgba(173,  markerClusterGroup: L.MarkerClusterGroup; 132, 11, .1)",
+    //       "roofColor": "rgba(243, 199, 63, .1)",
+    //       "height": 500
+    //     });
+    //
+    //     buildings.date((new Date()));
+    //
+    //     this.LayersControl.addOverlay(buildings,"3D Models");
+    //   });
+    // }
 
     this.toolbarUtil();
 

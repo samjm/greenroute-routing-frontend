@@ -100,4 +100,45 @@ export class PoisService {
 
     }
   }
+
+  addToLayer(sensorArray, layer): void{
+    for (let sensor of sensorArray){
+      if (sensor['location']) {
+
+        var popContent;
+
+        if (sensor['url']) {
+          sensor['image'] = sensor['url']
+        }
+        if(sensor['location']){
+          popContent = '<b> Point of Interest Information</b><br/>' +
+          '<br/><table class="table">'+ '<tr><td><span class="glyphicon glyphicon-scale" aria-hidden="true"></span></td>'+'<td> '+  sensor['id']  + '</td></tr>'
+          +'<tr><td><span class="glyphicon glyphicon-home" aria-hidden="true"></span></td>'+'<td> ' + sensor['address']['addressLocality'] + '</td></tr>'
+          +'<tr><td><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></td>'+'<td> ' + sensor['name'] + '</td></tr>'
+          +'<tr><td><span class="glyphicon glyphicon-time" aria-hidden="true"></span></td>'+'<td> ' + this.datePipe.transform(sensor['dateCreated'],"dd-MM-yy HH:mm:ss") + '</td></tr>'
+          '</table>'
+        }
+
+        var marker = L.marker( [parseFloat(sensor['location']['coordinates'][1]),parseFloat(sensor['location']['coordinates'][0])], {
+          icon: this["pin_pois"]
+        }).bindPopup(popContent);
+
+
+
+
+        this.markersMap[sensor.id] = marker;
+
+        marker.addEventListener("popupopen", (e) => {
+          this.selectedSensorSource.next(sensor);
+        });
+        marker.addEventListener("popupclose",(e) => {
+          this.selectedSensorSource.next(null);
+        });
+        marker.addTo(layer);
+
+      }
+
+    }
+  }
+
 }

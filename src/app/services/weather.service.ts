@@ -36,7 +36,7 @@ export class WeatherService {
 
   private markersMap = {}; // id: marker -> para dar o update ao marker certo
 
-  private stationsApiUrl = environment.orion_url + '/v2/entities/?options=keyValues&type=WeatherObserved&limit=1000&orderBy=!dateObserved';
+  private stationsApiUrl = environment.orion_url + '/v2/entities/?options=keyValues&type=WeatherObserved&idPattern=WeatherObserved-CDMX-[A-Z*0-9]&limit=1000&orderBy=!dateObserved';
 
   constructor(private http: Http,private _mqttService: MqttService, private datePipe: DatePipe) { }
 

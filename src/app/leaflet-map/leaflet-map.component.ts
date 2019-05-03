@@ -289,7 +289,7 @@ export class LeafletMapComponent implements OnInit {
         this.weatherService.getUpdates();
         this.markerClusterGroupWeather.addTo(this.envLayer);
 
-        this.markerClusterGroupWeather.addTo(map);
+        //this.markerClusterGroupWeather.addTo(map);
       }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
 
       var weather_info = L.DomUtil.get('toolbar-weather-info');
@@ -303,13 +303,44 @@ export class LeafletMapComponent implements OnInit {
         }
       });
 
+      this.alertService
+      .getAlert().subscribe(result => {
+        this.alertService.addToCluster(result, this.markerClusterGroupAlert);
+        this.alertService.getUpdates(this.markerClusterGroupAlert);
+        this.markerClusterGroupAlert.addTo(this.envLayer);
+        this.markerClusterGroupAlert.addTo(map);
+      }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
+
+      var vehiclePositionLayer = L.layerGroup([])
+      this.vehiclePositionService
+      .getVehiclesPosition().subscribe(result => {
+        //Change/uncomment to set default view
+        // this.vehiclePositionService.addToMap(result, this.map);
+        // this.vehiclePositionService.getUpdates(this.map);
+        // this.markerClusterGroupAlert.addTo(this.envLayer);
+
+        this.vehiclePositionService.addToLayer(result, vehiclePositionLayer);
+        this.vehiclePositionService.getUpdates(this.map);
+
+        vehiclePositionLayer.addTo(map);
+        this.LayersControl.addOverlay(vehiclePositionLayer, "Metrobus");
+      }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
+
+      var poisLayer = L.layerGroup([])
       this.poisService
       .getPois().subscribe(result => {
-        this.poisService.addToCluster(result, this.markerClusterGroupPois);
-        this.markerClusterGroupPois.addTo(this.envLayer);
+        this.poisService.addToLayer(result, poisLayer);
+        poisLayer.addTo(map);
+        //Change/uncomment to use with clusters
+        //this.poisService.addToCluster(result, poisLayer);
+        //this.markerClusterGroupPois.addTo(poisLayer);
 
-        // this.markerClusterGroupPois.addTo(map);
+        //this.markerClusterGroupPois.addTo(map);
+        this.LayersControl.addOverlay(poisLayer, "POIs");
       }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
+
+
+
 
       var pois_info = L.DomUtil.get('toolbar-pois-info');
       this.poisService.selectedSensor$.subscribe(s => {
@@ -321,23 +352,6 @@ export class LeafletMapComponent implements OnInit {
           pois_info.style.display = 'none';
         }
       });
-
-
-      this.alertService
-      .getAlert().subscribe(result => {
-        this.alertService.addToCluster(result, this.markerClusterGroupAlert);
-        this.alertService.getUpdates(this.markerClusterGroupAlert);
-        this.markerClusterGroupAlert.addTo(this.envLayer);
-
-      }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
-
-      this.vehiclePositionService
-      .getVehiclesPosition().subscribe(result => {
-        this.vehiclePositionService.addToMap(result, this.map);
-        this.vehiclePositionService.getUpdates(this.map);
-        this.markerClusterGroupAlert.addTo(this.envLayer);
-
-      }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
 
       this.myItinerariesService
       .getUserItineraries().subscribe(result => {

@@ -90,6 +90,38 @@ export class VehiclePositionService {
         }
     }
 
+    addToLayer(sensorArray, layer):void {
+        for(let sensor of sensorArray){
+            if(sensor['location']){
+
+                var popContent = '<b> Vehicle Information</b><br/>' +
+                                '<br/><table class="table">'
+                                +'<tr><td><span class="glyphicon glyphicon-scale" aria-hidden="true"></span></td>'+'<td> '+  sensor['id']  + '</td></tr>'
+                                +'<tr><td>CO</td>'+'<td> '+  sensor['CO']  + '</td></tr>'
+                                +'<tr><td>NO2</td>'+'<td> ' + sensor['NO2'] + '</td></tr>'
+                                +'<tr><td>O3</td>'+'<td> ' + sensor['O3'] + '</td></tr>'
+                                +'<tr><td>SO2</td>'+'<td> ' + sensor['SO2'] + '</td></tr>'
+                                '</table>'
+
+                var marker = L.marker( [parseFloat(sensor['location']['coordinates'][0]),parseFloat(sensor['location']['coordinates'][1])], {
+                    icon: this["pin_car"]
+                }).bindPopup(popContent);
+
+                this.markersMap[sensor.id] = marker;
+
+                marker.addEventListener("popupopen", (e) => {
+                    this.selectedSensorSource.next(sensor);
+                });
+
+                marker.addEventListener("popupclose",(e) => {
+                    this.selectedSensorSource.next(null);
+                });
+
+                marker.addTo(layer);
+            }
+        }
+    }
+
     getUpdates(map){
         this._mqttService.observe('realtimeVehiclePosition').subscribe((message:MqttMessage) => {
             var updated = <Vehicle[]> JSON.parse(message.payload.toString()).data;

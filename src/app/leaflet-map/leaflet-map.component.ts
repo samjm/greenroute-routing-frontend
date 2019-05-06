@@ -243,7 +243,9 @@ export class LeafletMapComponent implements OnInit {
         this.airControlService.addToCluster(result, this.markerClusterGroupAir);
         this.airControlService.getUpdates();
         this.markerClusterGroupAir.addTo(this.envLayer);
-        this.LayersControl.addOverlay(this.envLayer, "Air Quality, Pollen, Weather, alerts and POIs");
+
+        this.envLayer.addTo(map);
+        this.LayersControl.addOverlay(this.envLayer, "Air Quality");
       }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
 
     var info = L.DomUtil.get('toolbar-sensor-info');
@@ -261,12 +263,17 @@ export class LeafletMapComponent implements OnInit {
     });
 
 
+    var pollenLayer = L.layerGroup([]);
+
     this.pollenService
       .getPollen().subscribe(result => {
         // console.log(result)
-        this.pollenService.addToCluster(result, this.markerClusterGroupPollen);
+        //this.pollenService.addToCluster(result, this.markerClusterGroupPollen);
+        this.pollenService.addToLayer(result, pollenLayer);
 
-        this.markerClusterGroupPollen.addTo(this.envLayer);
+        pollenLayer.addTo(map);
+        this.LayersControl.addOverlay(pollenLayer, "Pollen");
+        //this.markerClusterGroupPollen.addTo(this.envLayer);
       }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
 
       var pollen_info = L.DomUtil.get('toolbar-pollen-info');
@@ -283,12 +290,15 @@ export class LeafletMapComponent implements OnInit {
         }
       });
 
+    var weatherLayer = L.layerGroup([]);
     this.weatherService
       .getWeather().subscribe(result => {
-        this.weatherService.addToCluster(result, this.markerClusterGroupWeather);
+        //this.weatherService.addToCluster(result, this.markerClusterGroupWeather);
+        this.weatherService.addToLayer(result, weatherLayer);
         this.weatherService.getUpdates();
-        this.markerClusterGroupWeather.addTo(this.envLayer);
-
+        //this.markerClusterGroupWeather.addTo(this.envLayer);
+        weatherLayer.addTo(map);
+        this.LayersControl.addOverlay(weatherLayer, "Weather");
         //this.markerClusterGroupWeather.addTo(map);
       }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
 
@@ -303,15 +313,21 @@ export class LeafletMapComponent implements OnInit {
         }
       });
 
+      var alertLayer = L.layerGroup([]);
       this.alertService
       .getAlert().subscribe(result => {
-        this.alertService.addToCluster(result, this.markerClusterGroupAlert);
-        this.alertService.getUpdates(this.markerClusterGroupAlert);
-        this.markerClusterGroupAlert.addTo(this.envLayer);
-        this.markerClusterGroupAlert.addTo(map);
+        this.alertService.addToLayer(result, alertLayer);
+
+        this.alertService.getUpdatesLayer(alertLayer);
+        alertLayer.addTo(map);
+        //this.markerClusterGroupAlert.addTo(this.envLayer);
+        //this.markerClusterGroupAlert.addTo(map);
+
+
+        this.LayersControl.addOverlay(alertLayer, "Alerts");
       }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
 
-      var vehiclePositionLayer = L.layerGroup([])
+      var vehiclePositionLayer = L.layerGroup([]);
       this.vehiclePositionService
       .getVehiclesPosition().subscribe(result => {
         //Change/uncomment to set default view
@@ -326,7 +342,7 @@ export class LeafletMapComponent implements OnInit {
         this.LayersControl.addOverlay(vehiclePositionLayer, "Metrobus");
       }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
 
-      var poisLayer = L.layerGroup([])
+      var poisLayer = L.layerGroup([]);
       this.poisService
       .getPois().subscribe(result => {
         this.poisService.addToLayer(result, poisLayer);

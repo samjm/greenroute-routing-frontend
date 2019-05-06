@@ -127,6 +127,69 @@ export class WeatherService {
       }});
   }
 
+  addToLayer(sensorArray, layer): void{
+    this.getJSON().subscribe(config => {
+      for (let sensor of sensorArray){
+        if (sensor['location']) {
+          var pollutants = [];
+
+          var popContent;
+
+          for(var key in config){ // todos os poluentes no weather-config.json
+            if(sensor[key]){     // se existir um valor para esse poluente
+              var dataObject={};
+              if(sensor[key]!=="nr")
+                dataObject["value"] = sensor[key];
+              else
+                dataObject["value"] = "-";
+
+              dataObject["tag"] = config[key]["tag"];
+
+              dataObject["unit"] = config[key]["unit"];
+              dataObject["name"] = config[key]["name"];
+              dataObject["color"] = "#2a4c82";
+
+              pollutants.push(dataObject);
+            }
+            else{
+              console.log("404 pollutant "+key+" not found on "+sensor.id);
+            }
+
+          }
+          sensor["pollutants"] = pollutants
+
+          if(sensor['address']){
+            popContent = '<b> Weather Information</b><br/>' +
+            '<br/><table class="table">'+ '<tr><td><span class="glyphicon glyphicon-scale" aria-hidden="true"></span></td>'+'<td> '+  sensor['id']  + '</td></tr>'
+            +'<tr><td><span class="glyphicon glyphicon-home" aria-hidden="true"></span></td>'+'<td> ' + sensor['address']['streetAddress'] + ', ' + sensor['address']['addressLocality']
+            + ', ' + sensor['address']['addressCountry'] + '</td></tr>'
+            +'<tr><td><span class="glyphicon glyphicon-time" aria-hidden="true"></span></td>'+'<td> ' + this.datePipe.transform(sensor['dateObserved'],"dd-MM-yy HH:mm:ss") + '</td></tr>'
+            '</table>'
+            }
+
+
+          var marker = L.marker( [sensor['location'].coordinates[1],sensor['location'].coordinates[0]], {
+            icon: this["pin_weather"]
+          }).bindPopup(popContent);
+
+
+
+
+        this.markersMap[sensor.id] = marker;
+
+        marker.addEventListener("popupopen", (e) => {
+          this.selectedSensorSource.next(sensor);
+        });
+        marker.addEventListener("popupclose",(e) => {
+          this.selectedSensorSource.next(null);
+        });
+        marker.addTo(layer);
+
+      }
+
+      }});
+  }
+
   getUpdates() {
     var pollutants = [];
     this._mqttService.observe('weatherobserved').subscribe((message:MqttMessage) => {

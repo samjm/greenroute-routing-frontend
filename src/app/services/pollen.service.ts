@@ -203,6 +203,88 @@ export class PollenService {
       }});
   }
 
+  addToLayer(sensorArray ,layer):void {
+    this.getJSON().subscribe(config => {
+      for(let sensor of sensorArray){
+        if(sensor['location']){
+          var aqis =  [];
+          var pollutants = [];
+
+
+          var popContent;
+
+          var pollens = []
+          var pollens_display = ''
+          var highest_concentration = -1
+          var marker_color = "green"
+
+          for(var key in sensor){
+            if (key.endsWith('Level') && sensor[key]!= "null"){
+
+              let value = sensor[key]
+              let name = key
+
+              pollens.push(key);
+              pollens_display += '<tr><td>'+key+'</td><td>'+value+'</td></tr> '
+
+              var dataObject={};
+              if(value!=="null")
+                dataObject["value"] = value;
+              else
+                dataObject["value"] = "-";
+
+              name[0].toUpperCase();
+
+              dataObject["tag"] = key.slice(0,3).replace(/\b\w/g, l => l.toUpperCase());
+
+              dataObject["unit"] = "";
+              dataObject["name"] = key.replace(/\b\w/g, l => l.toUpperCase()).replace('Level', '').replace('_', ' Level');
+
+              var pollutantAQI=-1; // para a os que nao se calcula aqi terem a mesma cor que os sem valores, ie, gray
+
+              dataObject["aqi"] = "";
+
+              let color = this.concentration_map[value]["color"]
+              dataObject["color"] = color
+
+              let concentration = this.concentration_map[value]["level"]
+              if(concentration > highest_concentration){
+                highest_concentration = concentration
+                marker_color = color
+              }
+              pollutants.push(dataObject);
+            }
+          }
+          sensor["pollutants"] = pollutants
+
+          if(sensor['address']){
+            popContent = '<b> Pollen Information</b><br/>' +
+            '<br/><table class="table">'+ '<tr><td><span class="glyphicon glyphicon-scale" aria-hidden="true"></span></td>'+'<td> '+  sensor['id']  + '</td></tr>'
+            +'<tr><td><span class="glyphicon glyphicon-home" aria-hidden="true"></span></td>'+'<td> ' + sensor['address']['streetAddress'] + ', ' + sensor['address']['addressLocality']
+            + ', ' + sensor['address']['addressCountry'] + '</td></tr>'
+            +'<tr><td><span class="glyphicon glyphicon-time" aria-hidden="true"></span></td>'+'<td> ' + this.datePipe.transform(sensor['dateObserved'],"dd-MM-yy HH:mm:ss") + '</td></tr>'+
+            //+pollens_display+
+            '</table>'
+            }
+
+          var marker = L.marker( [sensor['location'].coordinates[1],sensor['location'].coordinates[0]], {
+            icon: this["pin_"+marker_color]
+          }).bindPopup(popContent);
+
+          this.markersMap[sensor.id] = marker;
+
+          marker.addEventListener("popupopen", (e) => {
+            this.selectedSensorSource.next(sensor);
+          });
+          marker.addEventListener("popupclose",(e) => {
+            this.selectedSensorSource.next(null);
+          });
+          marker.addTo(layer);
+        }
+
+      }});
+  }
+
   getUpdates() {
     this._mqttService.observe('pollenobserved').subscribe((message:MqttMessage) => {
       var updated = <Pollen[]> JSON.parse(message.payload.toString()).data;

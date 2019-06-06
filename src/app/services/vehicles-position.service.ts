@@ -35,14 +35,14 @@ export class VehiclePositionService {
 
     private markersMap = {}; // id: marker -> para dar o update ao marker certo
 
-    private stationsApiUrl = environment.orion_url + '/v2/entities?options=keyValues,count&limit=50&attrs=%2A,dateCreated,dateModified&orderBy=%21dateModified' ;
+    private stationsApiUrl = environment.orion_url + '/v2/entities?type=Vehicle&options=keyValues,count&limit=800&attrs=%2A,dateCreated,dateModified&orderBy=%21dateModified' ;
 
     constructor(private http: Http,private _mqttService: MqttService, private datePipe: DatePipe) { }
 
     getVehiclesPosition() {
         let myHeaders = new Headers({
-            'fiware-service': 'Smartspot',
-            'fiware-servicepath': '/smartspot',
+            'fiware-service': 'default',
+            'fiware-servicepath': '/',
         });
 
         let options = new RequestOptions({ headers: myHeaders });
@@ -65,13 +65,13 @@ export class VehiclePositionService {
                 var popContent = '<b> Vehicle Information</b><br/>' +
                                 '<br/><table class="table">'
                                 +'<tr><td><span class="glyphicon glyphicon-scale" aria-hidden="true"></span></td>'+'<td> '+  sensor['id']  + '</td></tr>'
-                                +'<tr><td>CO</td>'+'<td> '+  sensor['CO']  + '</td></tr>'
-                                +'<tr><td>NO2</td>'+'<td> ' + sensor['NO2'] + '</td></tr>'
-                                +'<tr><td>O3</td>'+'<td> ' + sensor['O3'] + '</td></tr>'
-                                +'<tr><td>SO2</td>'+'<td> ' + sensor['SO2'] + '</td></tr>'
+                                +'<tr><td>Speed</td>'+'<td> '+  sensor['speed']  + '</td></tr>'
+                                +'<tr><td>Heading</td>'+'<td> ' + sensor['heading'] + '</td></tr>'
+                                +'<tr><td>Odometer</td>'+'<td> ' + sensor['mileageFromOdometer'] + '</td></tr>'
+                                +'<tr><td>Date Observed</td>'+'<td> ' + sensor['dateObserved'] + '</td></tr>'
                                 '</table>'
 
-                var marker = L.marker( [parseFloat(sensor['location']['coordinates'][0]),parseFloat(sensor['location']['coordinates'][1])], {
+                var marker = L.marker( [parseFloat(sensor['location']['coordinates'][1]),parseFloat(sensor['location']['coordinates'][0])], {
                     icon: this["pin_car"]
                 }).bindPopup(popContent);
 
@@ -97,13 +97,13 @@ export class VehiclePositionService {
                 var popContent = '<b> Vehicle Information</b><br/>' +
                                 '<br/><table class="table">'
                                 +'<tr><td><span class="glyphicon glyphicon-scale" aria-hidden="true"></span></td>'+'<td> '+  sensor['id']  + '</td></tr>'
-                                +'<tr><td>CO</td>'+'<td> '+  sensor['CO']  + '</td></tr>'
-                                +'<tr><td>NO2</td>'+'<td> ' + sensor['NO2'] + '</td></tr>'
-                                +'<tr><td>O3</td>'+'<td> ' + sensor['O3'] + '</td></tr>'
-                                +'<tr><td>SO2</td>'+'<td> ' + sensor['SO2'] + '</td></tr>'
+                                +'<tr><td>Speed</td>'+'<td> '+  sensor['speed']  + '</td></tr>'
+                                +'<tr><td>Heading</td>'+'<td> ' + sensor['heading'] + '</td></tr>'
+                                +'<tr><td>Odometer</td>'+'<td> ' + sensor['mileageFromOdometer'] + '</td></tr>'
+                                +'<tr><td>Date Observed</td>'+'<td> ' + sensor['dateObserved'] + '</td></tr>'
                                 '</table>'
 
-                var marker = L.marker( [parseFloat(sensor['location']['coordinates'][0]),parseFloat(sensor['location']['coordinates'][1])], {
+                var marker = L.marker( [parseFloat(sensor['location']['coordinates'][1]),parseFloat(sensor['location']['coordinates'][0])], {
                     icon: this["pin_car"]
                 }).bindPopup(popContent);
 
@@ -131,13 +131,13 @@ export class VehiclePositionService {
                     var popContent = '<b> Vehicle Information</b><br/>' +
                                     '<br/><table class="table">'
                                     +'<tr><td><span class="glyphicon glyphicon-scale" aria-hidden="true"></span></td>'+'<td> '+  sensor['id']  + '</td></tr>'
-                                    +'<tr><td>CO</td>'+'<td> '+  sensor['CO']  + '</td></tr>'
-                                    +'<tr><td>NO2</td>'+'<td> ' + sensor['NO2'] + '</td></tr>'
-                                    +'<tr><td>O3</td>'+'<td> ' + sensor['O3'] + '</td></tr>'
-                                    +'<tr><td>SO2</td>'+'<td> ' + sensor['SO2'] + '</td></tr>'
+                                    +'<tr><td>Speed</td>'+'<td> '+  sensor['speed']  + '</td></tr>'
+                                    +'<tr><td>Heading</td>'+'<td> ' + sensor['heading'] + '</td></tr>'
+                                    +'<tr><td>Odometer</td>'+'<td> ' + sensor['mileageFromOdometer'] + '</td></tr>'
+                                    +'<tr><td>Date Observed</td>'+'<td> ' + sensor['dateObserved'] + '</td></tr>'
                                     '</table>'
-                    var lat = (parseFloat(sensor['location']['coordinates'][0]));
-                    var lng = (parseFloat(sensor['location']['coordinates'][1]));
+                    var lat = (parseFloat(sensor['location']['coordinates'][1]));
+                    var lng = (parseFloat(sensor['location']['coordinates'][0]));
                     var newLatLng = new L.LatLng(lat, lng);
                     marker.setLatLng(newLatLng);
                     marker.bindPopup(popContent);

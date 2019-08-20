@@ -342,20 +342,98 @@ export class LeafletMapComponent implements OnInit {
         this.LayersControl.addOverlay(vehiclePositionLayer, "Metrobus");
       }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
 
-      var poisLayer = L.layerGroup([]);
+      // var poisLayer = L.layerGroup([]);
+      // this.poisService
+      // .getPois().subscribe(result => {
+      //   this.poisService.addToLayer(result, poisLayer);
+      //   poisLayer.addTo(map);
+      //   //Change/uncomment to use with clusters
+      //   //this.poisService.addToCluster(result, poisLayer);
+      //   //this.markerClusterGroupPois.addTo(poisLayer);
+
+      //   //this.markerClusterGroupPois.addTo(map);
+      //   this.LayersControl.addOverlay(poisLayer, "POIs");
+      // }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
+
+
+      /////POIs layers
+      var poisCat01 = L.layerGroup([]);
       this.poisService
-      .getPois().subscribe(result => {
-        this.poisService.addToLayer(result, poisLayer);
-        poisLayer.addTo(map);
+      .getPoisCat01().subscribe(result => {
+        this.poisService.addToLayer(result, poisCat01, "pin_pois01");
+        poisCat01.addTo(map);
         //Change/uncomment to use with clusters
         //this.poisService.addToCluster(result, poisLayer);
         //this.markerClusterGroupPois.addTo(poisLayer);
 
         //this.markerClusterGroupPois.addTo(map);
-        this.LayersControl.addOverlay(poisLayer, "POIs");
+        this.LayersControl.addOverlay(poisCat01, "Comercio al Por Menor");
       }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
 
+      var poisCat02 = L.layerGroup([]);
+      this.poisService
+      .getPoisCat02().subscribe(result => {
+        this.poisService.addToLayer(result, poisCat02, "pin_pois02");
+        poisCat02.addTo(map);
+        //Change/uncomment to use with clusters
+        //this.poisService.addToCluster(result, poisLayer);
+        //this.markerClusterGroupPois.addTo(poisLayer);
 
+        //this.markerClusterGroupPois.addTo(map);
+        this.LayersControl.addOverlay(poisCat02, "Cultura y Recreación");
+      }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
+
+      var poisCat03 = L.layerGroup([]);
+      this.poisService
+      .getPoisCat03().subscribe(result => {
+        this.poisService.addToLayer(result, poisCat03, "pin_pois03");
+        poisCat03.addTo(map);
+        //Change/uncomment to use with clusters
+        //this.poisService.addToCluster(result, poisLayer);
+        //this.markerClusterGroupPois.addTo(poisLayer);
+
+        //this.markerClusterGroupPois.addTo(map);
+        this.LayersControl.addOverlay(poisCat03, "Preparación de Alimentos");
+      }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
+
+      var poisCat04 = L.layerGroup([]);
+      this.poisService
+      .getPoisCat04().subscribe(result => {
+        this.poisService.addToLayer(result, poisCat04, "pin_pois04");
+        poisCat04.addTo(map);
+        //Change/uncomment to use with clusters
+        //this.poisService.addToCluster(result, poisLayer);
+        //this.markerClusterGroupPois.addTo(poisLayer);
+
+        //this.markerClusterGroupPois.addTo(map);
+        this.LayersControl.addOverlay(poisCat04, "Renta de Inmuebles");
+      }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
+
+      var poisCat05 = L.layerGroup([]);
+      this.poisService
+      .getPoisCat05().subscribe(result => {
+        this.poisService.addToLayer(result, poisCat05, "pin_pois05");
+        poisCat05.addTo(map);
+        //Change/uncomment to use with clusters
+        //this.poisService.addToCluster(result, poisLayer);
+        //this.markerClusterGroupPois.addTo(poisLayer);
+
+        //this.markerClusterGroupPois.addTo(map);
+        this.LayersControl.addOverlay(poisCat05, "Servicios Profesionales");
+      }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
+
+      var poisCat06 = L.layerGroup([]);
+      this.poisService
+      .getPoisCat06().subscribe(result => {
+        this.poisService.addToLayer(result, poisCat06,"pin_pois06");
+        poisCat06.addTo(map);
+        //Change/uncomment to use with clusters
+        //this.poisService.addToCluster(result, poisLayer);
+        //this.markerClusterGroupPois.addTo(poisLayer);
+
+        //this.markerClusterGroupPois.addTo(map);
+        this.LayersControl.addOverlay(poisCat06, "Servicios Educativos");
+      }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
 
 
       var pois_info = L.DomUtil.get('toolbar-pois-info');
@@ -369,333 +447,333 @@ export class LeafletMapComponent implements OnInit {
         }
       });
 
-      this.myItinerariesService
-      .getUserItineraries().subscribe(result => {
-        var myItineraries = L.DomUtil.get('toolbar-my-itineraries');
-        var container = L.DomUtil.get('toolbar-my-itineraries-container');
-        let list = L.DomUtil.create('div', 'list-group', container);
-        for (var it in result){
-          let polyArray = [];
-          let divGroup2 = L.DomUtil.create('div', 'inst-container', list);
-          let itinerary = L.DomUtil.create('div', 'col-md-12', divGroup2);
-          itinerary.style.paddingRight = '0px';
-          itinerary.style.paddingLeft = '0px';
-          itinerary.style.paddingTop = '5px';
-          itinerary.style.paddingBottom = '5px';
-          itinerary.id = 'itinerary'+it;
-          itinerary.style.borderRadius = '0%';
-          itinerary.style.color = 'black';
-          itinerary.style.cursor = 'pointer';
-          itinerary.style.backgroundColor = '#FFFFFF';
-          itinerary.style.borderBottom = '1px solid rgb(230, 230, 230)';
-          itinerary.style.borderRight = '0px';
-          itinerary.style.borderLeft = '0px';
+      // this.myItinerariesService
+      // .getUserItineraries().subscribe(result => {
+      //   var myItineraries = L.DomUtil.get('toolbar-my-itineraries');
+      //   var container = L.DomUtil.get('toolbar-my-itineraries-container');
+      //   let list = L.DomUtil.create('div', 'list-group', container);
+      //   for (var it in result){
+      //     let polyArray = [];
+      //     let divGroup2 = L.DomUtil.create('div', 'inst-container', list);
+      //     let itinerary = L.DomUtil.create('div', 'col-md-12', divGroup2);
+      //     itinerary.style.paddingRight = '0px';
+      //     itinerary.style.paddingLeft = '0px';
+      //     itinerary.style.paddingTop = '5px';
+      //     itinerary.style.paddingBottom = '5px';
+      //     itinerary.id = 'itinerary'+it;
+      //     itinerary.style.borderRadius = '0%';
+      //     itinerary.style.color = 'black';
+      //     itinerary.style.cursor = 'pointer';
+      //     itinerary.style.backgroundColor = '#FFFFFF';
+      //     itinerary.style.borderBottom = '1px solid rgb(230, 230, 230)';
+      //     itinerary.style.borderRight = '0px';
+      //     itinerary.style.borderLeft = '0px';
 
-          let itinerary_text = L.DomUtil.create('p', 'col-md-7', itinerary);
-          itinerary_text.style.paddingRight = '0px';
-          itinerary_text.style.paddingLeft = '0px';
-          itinerary_text.innerHTML = "● <b> From </b>" + result[it]['fromPlace']['name'] + " <b>To</b> " + result[it]['toPlace']['name'];
+      //     let itinerary_text = L.DomUtil.create('p', 'col-md-7', itinerary);
+      //     itinerary_text.style.paddingRight = '0px';
+      //     itinerary_text.style.paddingLeft = '0px';
+      //     itinerary_text.innerHTML = "● <b> From </b>" + result[it]['fromPlace']['name'] + " <b>To</b> " + result[it]['toPlace']['name'];
 
-          itinerary_text.addEventListener('click', event => {
-            //clicking on the bold text would not trigger click events from angular, only from bootstrap
-            itinerary_text.parentElement.click();
-          })
+      //     itinerary_text.addEventListener('click', event => {
+      //       //clicking on the bold text would not trigger click events from angular, only from bootstrap
+      //       itinerary_text.parentElement.click();
+      //     })
 
-          let pollution_info = L.DomUtil.create('div', 'col-md-5', itinerary);
-          pollution_info.style.paddingRight = '0px';
-          pollution_info.style.paddingLeft = '0px';
+      //     let pollution_info = L.DomUtil.create('div', 'col-md-5', itinerary);
+      //     pollution_info.style.paddingRight = '0px';
+      //     pollution_info.style.paddingLeft = '0px';
 
-          let g_km;
+      //     let g_km;
 
-          for (var pollutant in result[it]['pollutants']) {
-            console.log(result[it]['pollutants'][pollutant]['id'], result[it]['pollutants'][pollutant]['value']);
-            if (result[it]['pollutants'][pollutant]['id'] === 'co2'){
-              let pollution_co2 = L.DomUtil.create('div', 'col-md-1', pollution_info);
-              pollution_co2.id = 'co2' + it;
-              pollution_co2.setAttribute('g_km_id', 'g_km'+it);
-              pollution_co2.setAttribute('value', parseInt(result[it]['pollutants'][pollutant]['value']).toString());
-              pollution_co2.setAttribute('unit', result[it]['pollutants'][pollutant]['unit']);
-              pollution_co2.style.borderRadius = '100%';
-              pollution_co2.style.height = '30px';
-              pollution_co2.style.width = '30px';
-              pollution_co2.style.backgroundColor = 'tomato';
-              pollution_co2.innerHTML = 'CO2';
-              pollution_co2.style.color = 'white';
-              pollution_co2.style.fontSize = '10px'
-              pollution_co2.style.minWidth = '30px';
-              pollution_co2.style.paddingTop = '8px'
-              pollution_co2.style.paddingLeft = '5px';
-              pollution_co2.style.textAlign = 'center';
-              pollution_co2.style.marginRight = '5%';
-              pollution_co2.style.marginLeft = '6%';
-              pollution_co2.style.fontWeight = 'bold';
+      //     for (var pollutant in result[it]['pollutants']) {
+      //       console.log(result[it]['pollutants'][pollutant]['id'], result[it]['pollutants'][pollutant]['value']);
+      //       if (result[it]['pollutants'][pollutant]['id'] === 'co2'){
+      //         let pollution_co2 = L.DomUtil.create('div', 'col-md-1', pollution_info);
+      //         pollution_co2.id = 'co2' + it;
+      //         pollution_co2.setAttribute('g_km_id', 'g_km'+it);
+      //         pollution_co2.setAttribute('value', parseInt(result[it]['pollutants'][pollutant]['value']).toString());
+      //         pollution_co2.setAttribute('unit', result[it]['pollutants'][pollutant]['unit']);
+      //         pollution_co2.style.borderRadius = '100%';
+      //         pollution_co2.style.height = '30px';
+      //         pollution_co2.style.width = '30px';
+      //         pollution_co2.style.backgroundColor = 'tomato';
+      //         pollution_co2.innerHTML = 'CO2';
+      //         pollution_co2.style.color = 'white';
+      //         pollution_co2.style.fontSize = '10px'
+      //         pollution_co2.style.minWidth = '30px';
+      //         pollution_co2.style.paddingTop = '8px'
+      //         pollution_co2.style.paddingLeft = '5px';
+      //         pollution_co2.style.textAlign = 'center';
+      //         pollution_co2.style.marginRight = '5%';
+      //         pollution_co2.style.marginLeft = '6%';
+      //         pollution_co2.style.fontWeight = 'bold';
 
-              pollution_co2.addEventListener('mouseover', event => {
-                let value = pollution_co2.getAttribute('value');
-                pollution_co2.innerHTML = value;
-                pollution_co2.style.backgroundColor = 'grey';
+      //         pollution_co2.addEventListener('mouseover', event => {
+      //           let value = pollution_co2.getAttribute('value');
+      //           pollution_co2.innerHTML = value;
+      //           pollution_co2.style.backgroundColor = 'grey';
 
-                document.getElementById(pollution_co2.getAttribute('g_km_id')).innerHTML = pollution_co2.getAttribute('unit');
-                document.getElementById(pollution_co2.getAttribute('g_km_id')).style.display = 'initial';
+      //           document.getElementById(pollution_co2.getAttribute('g_km_id')).innerHTML = pollution_co2.getAttribute('unit');
+      //           document.getElementById(pollution_co2.getAttribute('g_km_id')).style.display = 'initial';
 
-                if (value.toString().length == 1){
-                  pollution_co2.style.paddingLeft = '12px';
-                }
-                if (value.toString().length == 2){
-                  pollution_co2.style.paddingLeft = '10px';
-                }
+      //           if (value.toString().length == 1){
+      //             pollution_co2.style.paddingLeft = '12px';
+      //           }
+      //           if (value.toString().length == 2){
+      //             pollution_co2.style.paddingLeft = '10px';
+      //           }
 
-                if (value.toString().length == 3){
-                  pollution_co2.style.paddingLeft = '6px';
-                }
-                if (value.toString().length == 4){
-                  pollution_co2.style.paddingLeft = '4px';
-                }
-              });
+      //           if (value.toString().length == 3){
+      //             pollution_co2.style.paddingLeft = '6px';
+      //           }
+      //           if (value.toString().length == 4){
+      //             pollution_co2.style.paddingLeft = '4px';
+      //           }
+      //         });
 
-              pollution_co2.addEventListener('mouseout', event => {
-                pollution_co2.innerHTML = 'CO2';
-                pollution_co2.style.paddingLeft = '5px';
-                pollution_co2.style.backgroundColor = 'tomato';
+      //         pollution_co2.addEventListener('mouseout', event => {
+      //           pollution_co2.innerHTML = 'CO2';
+      //           pollution_co2.style.paddingLeft = '5px';
+      //           pollution_co2.style.backgroundColor = 'tomato';
 
-                document.getElementById(pollution_co2.getAttribute('g_km_id')).innerHTML = 'g/km';
-                document.getElementById(pollution_co2.getAttribute('g_km_id')).style.display = 'none';
-              });
-            }
+      //           document.getElementById(pollution_co2.getAttribute('g_km_id')).innerHTML = 'g/km';
+      //           document.getElementById(pollution_co2.getAttribute('g_km_id')).style.display = 'none';
+      //         });
+      //       }
 
-            if (result[it]['pollutants'][pollutant]['id'] === 'ch4'){
-              let pollution_ch4 = L.DomUtil.create('div', 'col-md-1', pollution_info);
-              pollution_ch4.id = 'ch4' + it;
-              pollution_ch4.setAttribute('g_km_id', 'g_km'+it);
-              pollution_ch4.setAttribute('value', parseInt(result[it]['pollutants'][pollutant]['value']).toString());
-              pollution_ch4.setAttribute('unit', result[it]['pollutants'][pollutant]['unit']);
-              pollution_ch4.style.borderRadius = '100%';
-              pollution_ch4.style.height = '30px';
-              pollution_ch4.style.width = '30px';
-              pollution_ch4.style.backgroundColor = 'slateblue';
-              pollution_ch4.innerHTML = 'CH4';
-              pollution_ch4.style.color = 'white';
-              pollution_ch4.style.fontSize = '10px'
-              pollution_ch4.style.minWidth = '30px';
-              pollution_ch4.style.paddingTop = '8px'
-              pollution_ch4.style.paddingLeft = '5px';
-              pollution_ch4.style.textAlign = 'center';
-              pollution_ch4.style.marginRight = '4%';
-              pollution_ch4.style.fontWeight = 'bold';
+      //       if (result[it]['pollutants'][pollutant]['id'] === 'ch4'){
+      //         let pollution_ch4 = L.DomUtil.create('div', 'col-md-1', pollution_info);
+      //         pollution_ch4.id = 'ch4' + it;
+      //         pollution_ch4.setAttribute('g_km_id', 'g_km'+it);
+      //         pollution_ch4.setAttribute('value', parseInt(result[it]['pollutants'][pollutant]['value']).toString());
+      //         pollution_ch4.setAttribute('unit', result[it]['pollutants'][pollutant]['unit']);
+      //         pollution_ch4.style.borderRadius = '100%';
+      //         pollution_ch4.style.height = '30px';
+      //         pollution_ch4.style.width = '30px';
+      //         pollution_ch4.style.backgroundColor = 'slateblue';
+      //         pollution_ch4.innerHTML = 'CH4';
+      //         pollution_ch4.style.color = 'white';
+      //         pollution_ch4.style.fontSize = '10px'
+      //         pollution_ch4.style.minWidth = '30px';
+      //         pollution_ch4.style.paddingTop = '8px'
+      //         pollution_ch4.style.paddingLeft = '5px';
+      //         pollution_ch4.style.textAlign = 'center';
+      //         pollution_ch4.style.marginRight = '4%';
+      //         pollution_ch4.style.fontWeight = 'bold';
 
-              pollution_ch4.addEventListener('mouseover', event => {
-                let value = pollution_ch4.getAttribute('value');
-                pollution_ch4.innerHTML = value;
-                pollution_ch4.style.backgroundColor = 'grey';
+      //         pollution_ch4.addEventListener('mouseover', event => {
+      //           let value = pollution_ch4.getAttribute('value');
+      //           pollution_ch4.innerHTML = value;
+      //           pollution_ch4.style.backgroundColor = 'grey';
 
-                document.getElementById(pollution_ch4.getAttribute('g_km_id')).innerHTML = pollution_ch4.getAttribute('unit');
-                document.getElementById(pollution_ch4.getAttribute('g_km_id')).style.display = 'initial';
+      //           document.getElementById(pollution_ch4.getAttribute('g_km_id')).innerHTML = pollution_ch4.getAttribute('unit');
+      //           document.getElementById(pollution_ch4.getAttribute('g_km_id')).style.display = 'initial';
 
-                if (value.toString().length == 1){
-                  pollution_ch4.style.paddingLeft = '12px';
-                }
-                if (value.toString().length == 2){
-                  pollution_ch4.style.paddingLeft = '10px';
-                }
+      //           if (value.toString().length == 1){
+      //             pollution_ch4.style.paddingLeft = '12px';
+      //           }
+      //           if (value.toString().length == 2){
+      //             pollution_ch4.style.paddingLeft = '10px';
+      //           }
 
-                if (value.toString().length == 3){
-                  pollution_ch4.style.paddingLeft = '6px';
-                }
-                if (value.toString().length == 4){
-                  pollution_ch4.style.paddingLeft = '4px';
-                }
-              });
+      //           if (value.toString().length == 3){
+      //             pollution_ch4.style.paddingLeft = '6px';
+      //           }
+      //           if (value.toString().length == 4){
+      //             pollution_ch4.style.paddingLeft = '4px';
+      //           }
+      //         });
 
-              pollution_ch4.addEventListener('mouseout', event => {
-                pollution_ch4.innerHTML = 'CH4';
-                pollution_ch4.style.paddingLeft = '5px';
-                pollution_ch4.style.backgroundColor = 'slateblue';
+      //         pollution_ch4.addEventListener('mouseout', event => {
+      //           pollution_ch4.innerHTML = 'CH4';
+      //           pollution_ch4.style.paddingLeft = '5px';
+      //           pollution_ch4.style.backgroundColor = 'slateblue';
 
-                document.getElementById(pollution_ch4.getAttribute('g_km_id')).innerHTML = 'g/km';
-                document.getElementById(pollution_ch4.getAttribute('g_km_id')).style.display = 'none';
-              });
-            }
+      //           document.getElementById(pollution_ch4.getAttribute('g_km_id')).innerHTML = 'g/km';
+      //           document.getElementById(pollution_ch4.getAttribute('g_km_id')).style.display = 'none';
+      //         });
+      //       }
 
-            if (result[it]['pollutants'][pollutant]['id'] === 'n20'){
-              let pollution_n2o = L.DomUtil.create('div', 'col-md-1', pollution_info);
-              pollution_n2o.id = 'n20' + it;
-              pollution_n2o.setAttribute('g_km_id', 'g_km'+it);
-              pollution_n2o.setAttribute('value', parseInt(result[it]['pollutants'][pollutant]['value']).toString());
-              pollution_n2o.setAttribute('unit', result[it]['pollutants'][pollutant]['unit']);
-              pollution_n2o.style.borderRadius = '100%';
-              pollution_n2o.style.height = '30px';
-              pollution_n2o.style.width = '30px';
-              pollution_n2o.style.backgroundColor = 'orange';
-              pollution_n2o.innerHTML = 'N2O';
-              pollution_n2o.style.color = 'white';
-              pollution_n2o.style.fontSize = '10px'
-              pollution_n2o.style.minWidth = '30px';
-              pollution_n2o.style.paddingTop = '8px'
-              pollution_n2o.style.paddingLeft = '5px';
-              pollution_n2o.style.textAlign = 'center';
-              pollution_n2o.style.fontWeight = 'bold';
+      //       if (result[it]['pollutants'][pollutant]['id'] === 'n20'){
+      //         let pollution_n2o = L.DomUtil.create('div', 'col-md-1', pollution_info);
+      //         pollution_n2o.id = 'n20' + it;
+      //         pollution_n2o.setAttribute('g_km_id', 'g_km'+it);
+      //         pollution_n2o.setAttribute('value', parseInt(result[it]['pollutants'][pollutant]['value']).toString());
+      //         pollution_n2o.setAttribute('unit', result[it]['pollutants'][pollutant]['unit']);
+      //         pollution_n2o.style.borderRadius = '100%';
+      //         pollution_n2o.style.height = '30px';
+      //         pollution_n2o.style.width = '30px';
+      //         pollution_n2o.style.backgroundColor = 'orange';
+      //         pollution_n2o.innerHTML = 'N2O';
+      //         pollution_n2o.style.color = 'white';
+      //         pollution_n2o.style.fontSize = '10px'
+      //         pollution_n2o.style.minWidth = '30px';
+      //         pollution_n2o.style.paddingTop = '8px'
+      //         pollution_n2o.style.paddingLeft = '5px';
+      //         pollution_n2o.style.textAlign = 'center';
+      //         pollution_n2o.style.fontWeight = 'bold';
 
-              pollution_n2o.addEventListener('mouseover', event => {
-                let value = pollution_n2o.getAttribute('value');
-                pollution_n2o.innerHTML = value;
-                pollution_n2o.style.backgroundColor = 'grey';
+      //         pollution_n2o.addEventListener('mouseover', event => {
+      //           let value = pollution_n2o.getAttribute('value');
+      //           pollution_n2o.innerHTML = value;
+      //           pollution_n2o.style.backgroundColor = 'grey';
 
-                document.getElementById(pollution_n2o.getAttribute('g_km_id')).innerHTML = pollution_n2o.getAttribute('unit');;
-                document.getElementById(pollution_n2o.getAttribute('g_km_id')).style.display = 'initial';
+      //           document.getElementById(pollution_n2o.getAttribute('g_km_id')).innerHTML = pollution_n2o.getAttribute('unit');;
+      //           document.getElementById(pollution_n2o.getAttribute('g_km_id')).style.display = 'initial';
 
-                if (value.toString().length == 1){
-                  pollution_n2o.style.paddingLeft = '12px';
-                }
-                if (value.toString().length == 2){
-                  pollution_n2o.style.paddingLeft = '10px';
-                }
+      //           if (value.toString().length == 1){
+      //             pollution_n2o.style.paddingLeft = '12px';
+      //           }
+      //           if (value.toString().length == 2){
+      //             pollution_n2o.style.paddingLeft = '10px';
+      //           }
 
-                if (value.toString().length == 3){
-                  pollution_n2o.style.paddingLeft = '6px';
-                }
-                if (value.toString().length == 4){
-                  pollution_n2o.style.paddingLeft = '4px';
-                }
-              });
+      //           if (value.toString().length == 3){
+      //             pollution_n2o.style.paddingLeft = '6px';
+      //           }
+      //           if (value.toString().length == 4){
+      //             pollution_n2o.style.paddingLeft = '4px';
+      //           }
+      //         });
 
-              pollution_n2o.addEventListener('mouseout', event => {
-                pollution_n2o.innerHTML = 'N2O';
-                pollution_n2o.style.paddingLeft = '5px';
-                pollution_n2o.style.backgroundColor = 'orange';
+      //         pollution_n2o.addEventListener('mouseout', event => {
+      //           pollution_n2o.innerHTML = 'N2O';
+      //           pollution_n2o.style.paddingLeft = '5px';
+      //           pollution_n2o.style.backgroundColor = 'orange';
 
-                document.getElementById(pollution_n2o.getAttribute('g_km_id')).innerHTML = 'g/km';
-                document.getElementById(pollution_n2o.getAttribute('g_km_id')).style.display = 'none';
-              });
+      //           document.getElementById(pollution_n2o.getAttribute('g_km_id')).innerHTML = 'g/km';
+      //           document.getElementById(pollution_n2o.getAttribute('g_km_id')).style.display = 'none';
+      //         });
 
-            }
-          }
+      //       }
+      //     }
 
-          g_km = L.DomUtil.create('div', 'col-md-1', pollution_info)
-          g_km.id = 'g_km'+it;
-          g_km.style.borderColor = 'grey';
-          g_km.style.borderRadius = '50%';
-          g_km.style.textAlign = 'center';
-          g_km.style.width = '22%';
-          g_km.style.borderColor = '#f2f2f2';
-          g_km.style.borderRadius = '10%';
-          g_km.style.paddingLeft = '0px';
-          g_km.style.paddingRight = '0px';
-          g_km.style.marginLeft = '5%';
-          g_km.style.marginTop = '5%';
-          g_km.style.fontSize = '11px';
-          g_km.style.backgroundColor = '#f2f2f2';
-          g_km.style.display = 'none';
+      //     g_km = L.DomUtil.create('div', 'col-md-1', pollution_info)
+      //     g_km.id = 'g_km'+it;
+      //     g_km.style.borderColor = 'grey';
+      //     g_km.style.borderRadius = '50%';
+      //     g_km.style.textAlign = 'center';
+      //     g_km.style.width = '22%';
+      //     g_km.style.borderColor = '#f2f2f2';
+      //     g_km.style.borderRadius = '10%';
+      //     g_km.style.paddingLeft = '0px';
+      //     g_km.style.paddingRight = '0px';
+      //     g_km.style.marginLeft = '5%';
+      //     g_km.style.marginTop = '5%';
+      //     g_km.style.fontSize = '11px';
+      //     g_km.style.backgroundColor = '#f2f2f2';
+      //     g_km.style.display = 'none';
 
-          this.myItinerariesObj[itinerary.id] = {};
-          this.myItinerariesObj[itinerary.id]["from"] = result[it]['fromPlace'];
-          this.myItinerariesObj[itinerary.id]["to"] = result[it]['toPlace'];
+      //     this.myItinerariesObj[itinerary.id] = {};
+      //     this.myItinerariesObj[itinerary.id]["from"] = result[it]['fromPlace'];
+      //     this.myItinerariesObj[itinerary.id]["to"] = result[it]['toPlace'];
 
-          let instUL = L.DomUtil.create('ul', 'collapse ', divGroup2);
-          instUL.id = itinerary.id + "UL";
+      //     let instUL = L.DomUtil.create('ul', 'collapse ', divGroup2);
+      //     instUL.id = itinerary.id + "UL";
 
-          itinerary.setAttribute('data-toggle','collapse');
-          itinerary.setAttribute('href','#'+instUL.id);
+      //     itinerary.setAttribute('data-toggle','collapse');
+      //     itinerary.setAttribute('href','#'+instUL.id);
 
-          instUL.addEventListener('click', event => {
-            event.preventDefault();
-            L.DomEvent.stopPropagation(event);
-          })
+      //     instUL.addEventListener('click', event => {
+      //       event.preventDefault();
+      //       L.DomEvent.stopPropagation(event);
+      //     })
 
-          for (let legs of result[it]['segments']) {
-            var latlngs;
-            if (legs['mode']==='Public Transportation'){
-              let instLiFrom = L.DomUtil.create('li', '', instUL);
-              var fromDate = new Date(legs['from']['departure']);
-              instLiFrom.innerHTML = "<b>From:</b> "+legs['from']['name'] + " at "+ fromDate.getHours() + ":" + (fromDate.getMinutes()<10?'0':'') + fromDate.getMinutes();
-              instLiFrom.style.textAlign = 'justify';
+      //     for (let legs of result[it]['segments']) {
+      //       var latlngs;
+      //       if (legs['mode']==='Public Transportation'){
+      //         let instLiFrom = L.DomUtil.create('li', '', instUL);
+      //         var fromDate = new Date(legs['from']['departure']);
+      //         instLiFrom.innerHTML = "<b>From:</b> "+legs['from']['name'] + " at "+ fromDate.getHours() + ":" + (fromDate.getMinutes()<10?'0':'') + fromDate.getMinutes();
+      //         instLiFrom.style.textAlign = 'justify';
 
-              var toDate = new Date(legs['to']['arrival']);
-              let instLiTo = L.DomUtil.create('li', '', instUL);
-              instLiTo.innerHTML = "<b>To:</b> "+legs['to']['name'] + " at "+ toDate.getHours() + ":" + (toDate.getMinutes()<10?'0':'') + toDate.getMinutes();
-              instLiTo.style.textAlign = 'justify';
+      //         var toDate = new Date(legs['to']['arrival']);
+      //         let instLiTo = L.DomUtil.create('li', '', instUL);
+      //         instLiTo.innerHTML = "<b>To:</b> "+legs['to']['name'] + " at "+ toDate.getHours() + ":" + (toDate.getMinutes()<10?'0':'') + toDate.getMinutes();
+      //         instLiTo.style.textAlign = 'justify';
 
-              latlngs = polyUtil.decode(legs['legGeometry']['points']);
-            }
-            else{
-              for (let i of legs['instructions']) {
-                let instLi = L.DomUtil.create('li', '', instUL);
-                instLi.innerHTML = i;
-                instLi.style.textAlign = 'justify';
-              }
-              latlngs = polyUtil.decode(legs['route']);
-            }
+      //         latlngs = polyUtil.decode(legs['legGeometry']['points']);
+      //       }
+      //       else{
+      //         for (let i of legs['instructions']) {
+      //           let instLi = L.DomUtil.create('li', '', instUL);
+      //           instLi.innerHTML = i;
+      //           instLi.style.textAlign = 'justify';
+      //         }
+      //         latlngs = polyUtil.decode(legs['route']);
+      //       }
 
-            if(latlngs){
-              var polyline = L.polyline(latlngs, {
-                color: this.active_color,
-                weight: 8
-              });
-              polyArray.push(polyline);
-            }
-          }
-          this.myItinerariesObj[itinerary.id]['layer'] = L.layerGroup(polyArray);
+      //       if(latlngs){
+      //         var polyline = L.polyline(latlngs, {
+      //           color: this.active_color,
+      //           weight: 8
+      //         });
+      //         polyArray.push(polyline);
+      //       }
+      //     }
+      //     this.myItinerariesObj[itinerary.id]['layer'] = L.layerGroup(polyArray);
 
-          itinerary.addEventListener('click', (event) => {
-            let event_id = event.srcElement.id;
-            let _toolbarDiv = L.DomUtil.get('toolbar-routes');
-            _toolbarDiv.style.display = 'none';
-            let _container = L.DomUtil.get('toolbar-routes-container');
-            L.DomUtil.empty(_container);
-            for(let polylayer in this.polylinesObj){
-              if(this.polylinesObj[polylayer]['layer']){
-                this.map.removeLayer(this.polylinesObj[polylayer]['layer']);
-              }
-              delete this.polylinesObj[polylayer];
-            }
-            for(let polylayer in this.myItinerariesObj){
-              var _UL = L.DomUtil.get(polylayer+"UL");
-              var _button = L.DomUtil.get(polylayer);
-              if(polylayer !== event_id && L.DomUtil.hasClass(_UL, 'in')){
-                _button.style.backgroundColor = "#FFFFFF";
-                // L.DomUtil.removeClass(_UL,"in");
-                _button.click();
-                if(this.map.hasLayer(this.myItinerariesObj[polylayer]['layer'])){
-                  this.map.removeLayer(this.myItinerariesObj[polylayer]['layer']);
-                }
-              }
-              else if(polylayer === event_id){
-                if(L.DomUtil.hasClass(_UL, 'in')){
-                  _button.style.backgroundColor = "#FFFFFF";
-                  // L.DomUtil.removeClass(_UL,"in");
-                  if(this.map.hasLayer(this.myItinerariesObj[polylayer]['layer'])){
-                    this.map.removeLayer(this.myItinerariesObj[polylayer]['layer']);
-                  }
-                }else{
-                  this.fromLatLng = [
-                    this.myItinerariesObj[polylayer]['from']['lat'],
-                    this.myItinerariesObj[polylayer]['from']['lon']
-                  ];
-                  this.fromHere({
-                    'latlng': {
-                      'lat': this.fromLatLng[0],
-                      'lng': this.fromLatLng[1]
-                    }
-                  },map);
-                  this.toLatLng = [
-                    this.myItinerariesObj[polylayer]['to']['lat'],
-                    this.myItinerariesObj[polylayer]['to']['lon']
-                  ];
-                  this.toHere({
-                    'latlng': {
-                      'lat': this.toLatLng[0],
-                      'lng': this.toLatLng[1]
-                    }
-                  },map);
-                  _button.style.backgroundColor = this.active_color;
-                  this.map.addLayer(this.myItinerariesObj[polylayer]['layer']);
-                  this.map.fitBounds(L.latLngBounds(this.fromLatLng,this.toLatLng));
-                }
-              }
-            }
-          });
-      }
-        myItineraries.style.display = 'block';
-      }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
+      //     itinerary.addEventListener('click', (event) => {
+      //       let event_id = event.srcElement.id;
+      //       let _toolbarDiv = L.DomUtil.get('toolbar-routes');
+      //       _toolbarDiv.style.display = 'none';
+      //       let _container = L.DomUtil.get('toolbar-routes-container');
+      //       L.DomUtil.empty(_container);
+      //       for(let polylayer in this.polylinesObj){
+      //         if(this.polylinesObj[polylayer]['layer']){
+      //           this.map.removeLayer(this.polylinesObj[polylayer]['layer']);
+      //         }
+      //         delete this.polylinesObj[polylayer];
+      //       }
+      //       for(let polylayer in this.myItinerariesObj){
+      //         var _UL = L.DomUtil.get(polylayer+"UL");
+      //         var _button = L.DomUtil.get(polylayer);
+      //         if(polylayer !== event_id && L.DomUtil.hasClass(_UL, 'in')){
+      //           _button.style.backgroundColor = "#FFFFFF";
+      //           // L.DomUtil.removeClass(_UL,"in");
+      //           _button.click();
+      //           if(this.map.hasLayer(this.myItinerariesObj[polylayer]['layer'])){
+      //             this.map.removeLayer(this.myItinerariesObj[polylayer]['layer']);
+      //           }
+      //         }
+      //         else if(polylayer === event_id){
+      //           if(L.DomUtil.hasClass(_UL, 'in')){
+      //             _button.style.backgroundColor = "#FFFFFF";
+      //             // L.DomUtil.removeClass(_UL,"in");
+      //             if(this.map.hasLayer(this.myItinerariesObj[polylayer]['layer'])){
+      //               this.map.removeLayer(this.myItinerariesObj[polylayer]['layer']);
+      //             }
+      //           }else{
+      //             this.fromLatLng = [
+      //               this.myItinerariesObj[polylayer]['from']['lat'],
+      //               this.myItinerariesObj[polylayer]['from']['lon']
+      //             ];
+      //             this.fromHere({
+      //               'latlng': {
+      //                 'lat': this.fromLatLng[0],
+      //                 'lng': this.fromLatLng[1]
+      //               }
+      //             },map);
+      //             this.toLatLng = [
+      //               this.myItinerariesObj[polylayer]['to']['lat'],
+      //               this.myItinerariesObj[polylayer]['to']['lon']
+      //             ];
+      //             this.toHere({
+      //               'latlng': {
+      //                 'lat': this.toLatLng[0],
+      //                 'lng': this.toLatLng[1]
+      //               }
+      //             },map);
+      //             _button.style.backgroundColor = this.active_color;
+      //             this.map.addLayer(this.myItinerariesObj[polylayer]['layer']);
+      //             this.map.fitBounds(L.latLngBounds(this.fromLatLng,this.toLatLng));
+      //           }
+      //         }
+      //       }
+      //     });
+      // }
+      //   myItineraries.style.display = 'block';
+      // }, error => { throw new Error(error.message) }); // ou .catch, não sei :s
 
 
       var trafficLayer = L.layerGroup([])
@@ -712,30 +790,30 @@ export class LeafletMapComponent implements OnInit {
       this.LayersControl.addOverlay(trafficLayer, "Traffic data");
 
 
-    this.stopService.getStops().subscribe(result => {
-      this.stopsLayer = this.createStopsLayer(result, map); // não conseguia fazer esta atribuiçao no service, dava erro
-      var fakeLayer = new L.LayerGroup();
-      this.LayersControl.addOverlay(fakeLayer,"Public Transportation Stops");
-      map.addEventListener('zoomend', (e) => {
-        if(map.getZoom()<16){
-          if(map.hasLayer(this.stopsLayer)){
-            map.removeLayer(this.stopsLayer);
-            map.addLayer(fakeLayer)
-          }
-          this.LayersControl.removeLayer(this.stopsLayer);
-          this.LayersControl.removeLayer(fakeLayer);
-          this.LayersControl.addOverlay(fakeLayer,"Public Transportation Stops");
-        }else{
-          if(map.hasLayer(fakeLayer)){
-            map.removeLayer(fakeLayer);
-            map.addLayer(this.stopsLayer)
-          }
-          this.LayersControl.removeLayer(fakeLayer);
-          this.LayersControl.removeLayer(this.stopsLayer);
-          this.LayersControl.addOverlay(this.stopsLayer,"Public Transportation Stops");
-        }
-      });
-    }, error => { throw new Error(error.message) });
+    // this.stopService.getStops().subscribe(result => {
+    //   this.stopsLayer = this.createStopsLayer(result, map); // não conseguia fazer esta atribuiçao no service, dava erro
+    //   var fakeLayer = new L.LayerGroup();
+    //   this.LayersControl.addOverlay(fakeLayer,"Public Transportation Stops");
+    //   map.addEventListener('zoomend', (e) => {
+    //     if(map.getZoom()<16){
+    //       if(map.hasLayer(this.stopsLayer)){
+    //         map.removeLayer(this.stopsLayer);
+    //         map.addLayer(fakeLayer)
+    //       }
+    //       this.LayersControl.removeLayer(this.stopsLayer);
+    //       this.LayersControl.removeLayer(fakeLayer);
+    //       this.LayersControl.addOverlay(fakeLayer,"Public Transportation Stops");
+    //     }else{
+    //       if(map.hasLayer(fakeLayer)){
+    //         map.removeLayer(fakeLayer);
+    //         map.addLayer(this.stopsLayer)
+    //       }
+    //       this.LayersControl.removeLayer(fakeLayer);
+    //       this.LayersControl.removeLayer(this.stopsLayer);
+    //       this.LayersControl.addOverlay(this.stopsLayer,"Public Transportation Stops");
+    //     }
+    //   });
+    // }, error => { throw new Error(error.message) });
 
     map.addEventListener('click', (e) => {
     });

@@ -136,11 +136,14 @@ export class VehiclePositionService {
                                     +'<tr><td>Odometer</td>'+'<td> ' + sensor['mileageFromOdometer'] + '</td></tr>'
                                     +'<tr><td>Date Observed</td>'+'<td> ' + sensor['dateObserved'] + '</td></tr>'
                                     '</table>'
-                    var lat = (parseFloat(sensor['location']['coordinates'][1]));
-                    var lng = (parseFloat(sensor['location']['coordinates'][0]));
-                    var newLatLng = new L.LatLng(lat, lng);
-                    marker.setLatLng(newLatLng);
-                    marker.bindPopup(popContent);
+                    if(sensor['location']['coordinates']){
+                        var lat = (parseFloat(sensor['location']['coordinates'][1]));
+                        var lng = (parseFloat(sensor['location']['coordinates'][0]));
+                        var newLatLng = new L.LatLng(lat, lng);
+                        marker.setLatLng(newLatLng);
+                        marker.bindPopup(popContent);
+                    }
+
                 }
             }
         });

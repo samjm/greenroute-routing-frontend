@@ -51,7 +51,7 @@ export class PoisService {
 
   pin_pois03 = L.icon({
     iconUrl: "../assets/poi03.png", // From https://www.iconfinder.com/search/?price=free
-    iconSize:     [4, 4], // size of the icon
+    iconSize:     [45, 48], // size of the icon
     iconAnchor:   [17.5, 38], // point of the icon which will correspond to marker's location
     popupAnchor:  [0, -38] // point from which the popup should open relatixe to the iconAnchor
   });

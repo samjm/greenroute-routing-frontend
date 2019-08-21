@@ -93,12 +93,12 @@ export class PoisService {
 // private cat05 = 'http://207.249.127.45:1026/v2/entities?type=unidadEconomica&q=subCategory==alimentos&options=keyValues&limit=1000';
 // private cat06 = 'http://207.249.127.45:1026/v2/entities?type=unidadEconomica&q=subCategory==carneAves&options=keyValues&limit=1000';
 
-  private cat01 = /*environment.orion_url*/ 'http://207.249.127.45:1026/v2' +'/entities/?type=unidadEconomica&q=category==comercioPorMenor&options=keyValues&limit=1000';
-  private cat02 = /*environment.orion_url*/ 'http://207.249.127.45:1026/v2' +'/entities/?type=PointOfInterest&q=category==culturaYRecreacion&options=keyValues&limit=1000';
-  private cat03 = /*environment.orion_url*/ 'http://207.249.127.45:1026/v2' +'/entities/?type=PointOfInterest&q=category==preparacionAlimentos&options=keyValues&limit=1000';
-  private cat04 = /*environment.orion_url*/ 'http://207.249.127.45:1026/v2' +'/entities/?type=PointOfInterest&q=category==rentaInmuebles&options=keyValues&limit=1000';
-  private cat05 = /*environment.orion_url*/ 'http://207.249.127.45:1026/v2' +'/entities/?type=PointOfInterest&q=category==serviciosProfesionales&options=keyValues&limit=1000';
-  private cat06 = /*environment.orion_url*/ 'http://207.249.127.45:1026/v2' +'/entities/?type=PointOfInterest&q=category==serviciosEducativos&options=keyValues&limit=1000';
+  private cat01 = environment.orion_url +'/v2/entities/?type=unidadEconomica&q=category==comercioPorMenor&options=keyValues&limit=1000';
+  private cat02 = environment.orion_url +'/v2/entities/?type=PointOfInterest&q=category==culturaYRecreacion&options=keyValues&limit=1000';
+  private cat03 = environment.orion_url +'/v2/entities/?type=PointOfInterest&q=category==preparacionAlimentos&options=keyValues&limit=1000';
+  private cat04 = environment.orion_url +'/v2/entities/?type=PointOfInterest&q=category==rentaInmuebles&options=keyValues&limit=1000';
+  private cat05 = environment.orion_url +'/v2/entities/?type=PointOfInterest&q=category==serviciosProfesionales&options=keyValues&limit=1000';
+  private cat06 = environment.orion_url +'/v2/entities/?type=PointOfInterest&q=category==serviciosEducativos&options=keyValues&limit=1000';
 
   constructor(private http: Http,private _mqttService: MqttService, private datePipe: DatePipe) { }
 
